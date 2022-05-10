@@ -108,7 +108,7 @@ if __name__ == "__main__":
             error_message = str(e).split("Specify dtype option on import or set low_memory=False.")
             print(f"{error_message[0]} Use the --column_datatype flag to specify data type of column contents.")
 
-    if args.rename_columns is not None: # User has specified columns to be renamed.
+    if args.rename_columns is not None: # User has specified CSV columns to be renamed.
         original_columns = deepcopy(args.rename_columns[:-1:2])
         renamed_columns = deepcopy(args.rename_columns[1::2])
         renamed_columns_dictionary = dict(zip(original_columns, renamed_columns))
