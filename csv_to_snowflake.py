@@ -5,7 +5,7 @@ Extended Summary
 This script is intended to be run from the command line and presumes
 that a table exists in Snowflake that you want to add CSV data to.
 
-The --csv_file_path and --table_name flag arguments are mandatory, for 
+The `--csv_file_path` and `--table_name` flag arguments are mandatory, for 
 obvious reasons.
 
 Notes
@@ -14,30 +14,26 @@ You'll want to update the source code if your enviromental variables have
 different names.
 
 If your CSV and table column header names don't match you will get an 
-error, so be sure to pass the '--rename columns' flag.
+error, so be sure to pass the `--rename columns` flag.
 See Examples, below.
 
-If the DataFrame read_csv.() method encounters non-uniform data types in 
+If the DataFrame `read_csv.()` method encounters non-uniform data types in 
 the CSV file (e.g. a column with a mix of strings and integers) Pandas will 
 *guess* the data type and insert data instead  of stopping. I have ensured 
 this warning is treated as an exception in order to ensure accurate data 
 conversion. The solution to this error is to specify the column/s data type 
-by using the --column_datatype flag. See Examples, below.
+by using the `--column_datatype` flag. See Examples, below.
 
 Examples
 --------
 
 Renaming CSV column headers to match Snowflake table headers:
 
-```
-python csv_to_snowflake.py --csv product_data.csv --table PRODUCTS --rc ID PRODUCT_ID customer_name CUSTOMER_NAME
-```
+>>> $ python csv_to_snowflake.py --csv product_data.csv --table PRODUCTS --rc ID PRODUCT_ID customer_name CUSTOMER_NAME
 
 Specifying the data type of a column:
 
-```
-python csv_to_snowflake.py --csv product_data.csv --table PRODUCTS --column_datatype PRODUCT_ID int
-```
+>>> $ python csv_to_snowflake.py --csv product_data.csv --table PRODUCTS --column_datatype PRODUCT_ID int
 
 """
 
@@ -57,7 +53,7 @@ warnings.simplefilter('error')
 parser = argparse.ArgumentParser(description="Write CSV data to Snowflake table.")
 
 parser.add_argument(
-    "--csv_file_path", "--csv", help="File path of CSV file", required=True
+    "--csv_file_path", "--csv", help="File path of CSV file. Use double quotation marks around file path.", required=True
 )
 parser.add_argument(
     "--table_name", "--table", help="Name of table in Snowflake", required=True
@@ -75,9 +71,9 @@ parser.add_argument(
     help='Specify the datatypes of CSV columns, e.g. "first_column str"'
     )
 
-args = parser.parse_args()
-
 if __name__ == "__main__":
+
+    args = parser.parse_args()
     
     # Establishes connection to Snowflake.
     conn = snowflake.connector.connect(
