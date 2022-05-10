@@ -50,8 +50,10 @@ import snowflake.connector
 import pandas as pd
 from snowflake.connector.pandas_tools import write_pandas
 
-warnings.filterwarnings(action='error') # Ensures warnings are treated as exceptions.
+# Ensures warnings are treated as exceptions.
+warnings.simplefilter('error')
 
+# Sets up command line arguments.
 parser = argparse.ArgumentParser(description="Write CSV data to Snowflake table.")
 
 parser.add_argument(
@@ -76,7 +78,8 @@ parser.add_argument(
 args = parser.parse_args()
 
 if __name__ == "__main__":
-
+    
+    # Establishes connection to Snowflake.
     conn = snowflake.connector.connect(
         user = os.environ['USER'],
         account = os.environ['DATABASE_ACCOUNT'],
@@ -86,26 +89,30 @@ if __name__ == "__main__":
         database = os.environ['DATABASE'],
         schema = os.environ['SCHEMA']
     )
-
-    if args.column_datatype is not None:
+    
+    # Reads CSV data into a Pandas Data Frame.
+    if args.column_datatype is not None: # User has specified column/s data type.
         column_names = deepcopy(args.column_datatype[:-1:2])
         data_types = deepcopy(args.column_datatype[1::2])
         column_data_types_dict = dict(zip(column_names, data_types))
 
         try:
             df = pd.read_csv(args.csv_file_path, dtype=column_data_types_dict)
-        except pd.errors.DtypeWarning:
-            raise SystemExit('Mixed data types detected in CSV. Use the --column_datatype flag to specify data type of column contents.')
+        except pd.errors.DtypeWarning as e:
+            error_message = str(e).split("Specify dtype option on import or set low_memory=False.") # Unnecessary information for user.
+            print(f"{error_message[0]} Use the --column_datatype flag to specify data type of column contents.")
     else:
         try:
             df = pd.read_csv(args.csv_file_path)
-        except pd.errors.DtypeWarning:
-            raise SystemExit('Mixed data types detected in CSV. Use the --column_datatype flag to specify data type of column contents.')
+        except pd.errors.DtypeWarning as e:
+            error_message = str(e).split("Specify dtype option on import or set low_memory=False.")
+            print(f"{error_message[0]} Use the --column_datatype flag to specify data type of column contents.")
 
-    if args.rename_columns is not None:
+    if args.rename_columns is not None: # User has specified columns to be renamed.
         original_columns = deepcopy(args.rename_columns[:-1:2])
         renamed_columns = deepcopy(args.rename_columns[1::2])
         renamed_columns_dictionary = dict(zip(original_columns, renamed_columns))
         df.rename(columns=renamed_columns_dictionary, inplace=True)
 
+    # Writes CSV data to Snowflake table.
     write_pandas(conn, df, args.table_name)
