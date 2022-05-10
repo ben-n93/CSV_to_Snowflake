@@ -5,7 +5,7 @@ Command-line script for writing CSV data to a table in the Snowflake data wareho
 The Snowflake table must exist already and match the CSV file in regards to number of columns e.g. if the CSV file features two columns of data and the Snowflake table
 only has one column then this script will not work.
 
-# Installation
+## Installation
 
 Navigate into the parent directory and install the required packages:
 
@@ -29,7 +29,7 @@ to reflect your enviromental variable names.
     )
 ```
 
-# How to use
+## How to use
 
 Call the script from the command line, specifying the CSV file path and Snowflake table name using the mandatory `--csv` and `--table` flags. 
 
@@ -61,6 +61,9 @@ Windows
 ```
 $ python csv_to_snowflake.py --csv "H:\CSV files\mock_data.csv" --table_name PRODUCT_INFO --dt product_info str product_cost int
 ```
+## Planned features
+
+- Creating a Snowflake table from CSV file rather than simply updating an existing table with CSV data.
 
 ## License
 
