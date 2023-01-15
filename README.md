@@ -10,7 +10,7 @@ only has one column then this script will not work.
 Navigate into the parent directory and install the required packages:
 
 ```
-$ cd VAST_XML_Parser
+$ cd CSV_to_Snowflake
 $ pip3 install -r requirements.txt
 ```
 
