@@ -46,10 +46,8 @@ import snowflake.connector
 import pandas as pd
 from snowflake.connector.pandas_tools import write_pandas
 
-# Ensures warnings are treated as exceptions.
 warnings.simplefilter('error')
 
-# Sets up command line arguments.
 parser = argparse.ArgumentParser(description="Write CSV data to Snowflake table.")
 
 parser.add_argument(
