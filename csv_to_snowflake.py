@@ -72,7 +72,7 @@ parser.add_argument(
 if __name__ == "__main__":
 
     args = parser.parse_args()
-    
+
     # Establishes connection to Snowflake.
     conn = snowflake.connector.connect(
         user = os.environ['USER'],
@@ -83,7 +83,7 @@ if __name__ == "__main__":
         database = os.environ['DATABASE'],
         schema = os.environ['SCHEMA']
     )
-    
+
     # Reads CSV data into a Pandas Data Frame.
     if args.column_datatype is not None: # User has specified column/s data type.
         column_names = deepcopy(args.column_datatype[:-1:2])
