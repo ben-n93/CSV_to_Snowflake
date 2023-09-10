@@ -1,7 +1,5 @@
 """Write a CSV file's data into a specified Snowflake table.
 
-Extended Summary
-----------------
 This script is intended to be run from the command line and presumes
 that a table exists in Snowflake that you want to add CSV data to.
 
