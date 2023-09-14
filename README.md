@@ -1,6 +1,6 @@
 # CSV to Snowflake
 
-Command-line script for writing CSV data to a table in the Snowflake data warehouse.
+Command-line tool for writing CSV data to a table in the Snowflake data warehouse.
 
 The Snowflake table must exist already and match the CSV file in regards to number of columns e.g. if the CSV file features two columns of data and the Snowflake table
 only has one column then this script will not work.
